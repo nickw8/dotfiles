@@ -57,7 +57,7 @@ plugins=(
   systemadmin
   terraform
   vscode
-#  zsh-syntax-highlighting # Slow paste
+  zsh-syntax-highlighting # Slow paste
   zsh-autosuggestions
   zsh-completions
 )
