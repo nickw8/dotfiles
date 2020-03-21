@@ -62,3 +62,10 @@ complete -C '/usr/local/bin/aws_completer' aws
 ## Terraform ##
 # Terraform auto-complete
 complete -o nospace -C /usr/local/bin/terraform terraform
+###############################################################################
+
+## Twilix ##
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
+fi
+###############################################################################
