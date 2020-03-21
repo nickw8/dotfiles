@@ -38,6 +38,8 @@ plugins=(
   brew
   colorize
   common-aliases
+  docker
+  docker-compose
   encode64
   extract
   fzf
@@ -53,12 +55,11 @@ plugins=(
   ssh-agent
   sudo
   systemadmin
+  terraform
   vscode
 #  zsh-syntax-highlighting # Slow paste
   zsh-autosuggestions
   zsh-completions
-  docker
-  docker-compose
 )
 
 export ZSH="$HOME/.oh-my-zsh"
