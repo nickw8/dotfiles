@@ -22,48 +22,6 @@ fi
 # scripts in /etc/profile and /etc/profile.d/
 ###############################################################################
 
-# Specifics for user, to set subsequent envars ################################
-my_fname=nick
-my_email='nicholas.weight@gmail.com'
-my_fullname='Nick Weight'
-
-my_shdir=~/config/shell
-
-case $(uname) in
-    Linux)   ostype=Linux ;;
-    FreeBSD) ostype=FreeBSD ;;
-    Darwin)  ostype=Darwin ;;
-esac
-###############################################################################
-
-# Import Configs for system ###################################################
-# This order can be important. I like to make sure all the envars are
-# set so subsequent functions etc can make use of them.
-# Doing actions.sh early to avoid 3rd-party stuff overriding anything.
-my_configs=(
-    macos.sh
-    envars.sh
-    vendor.sh # activation of other scripts beyond my control
-    options.zsh # potential to be slow
-    aliases.sh
-    aliases.zsh
-    functions.sh
-    plugins.zsh
-)
-###############################################################################
-
-# Time the stuff.
-integer t0=$(date '+%s')
-###############################################################################
-
-# Source all the Zsh-specific and sh-generic files.
-for f in $my_configs; do
-    ##print starting $f
-    [[ -f $my_shdir/$f ]] && . $my_shdir/$f
-    ##print finished $f
-done
-###############################################################################
-
 # Set name of the theme to load --- if set to "random", it will
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -103,7 +61,9 @@ plugins=(
   docker-compose
 )
 
+export ZSH="$HOME/.oh-my-zsh"
 source $ZSH/oh-my-zsh.sh
+
 ###############################################################################
 
 # User configuration
