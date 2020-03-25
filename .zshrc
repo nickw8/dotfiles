@@ -15,11 +15,6 @@ fi
 #
 # 2. Can have a “reload” util that just re`source`s a subset of the files.
 #
-# Using perlesque convention that ‘my_*’ vars are globally visible things that
-# I have set.
-#
-# Noticed that archlinux et al do the same type of `source`ing of worker
-# scripts in /etc/profile and /etc/profile.d/
 ###############################################################################
 
 # Set name of the theme to load --- if set to "random", it will
@@ -30,7 +25,6 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   aws
@@ -70,9 +64,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# Defined within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
