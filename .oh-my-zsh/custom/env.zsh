@@ -51,9 +51,9 @@ IFS="$OIFS"
 # Better AWS completion Plugin
 source $HOME/.oh-my-zsh/custom/plugins/fzf-tab-completion/zsh/fzf-zsh-completion.sh 
 # only aws command completion 
-#zstyle ':completion:*:*:aws' fzf-search-display true
+zstyle ':completion:*:*:aws' fzf-search-display true
 # or for everything
-zstyle ':completion:*' fzf-search-display true
+#zstyle ':completion:*' fzf-search-display true
 
 # AWS-CLI auto-complete
 complete -C '/usr/local/bin/aws_completer' aws
