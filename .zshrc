@@ -37,7 +37,6 @@ plugins=(
   docker-compose
   encode64
   extract
-  fzf
   git
   git-extras
   gitignore
@@ -51,10 +50,12 @@ plugins=(
   sudo
   systemadmin
   terraform
+  vi-mode
   vscode
   zsh-syntax-highlighting # Slow paste
   zsh-autosuggestions
   zsh-completions
+  fzf
 )
 
 export ZSH="$HOME/.oh-my-zsh"

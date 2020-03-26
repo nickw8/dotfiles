@@ -7,11 +7,13 @@ endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'itchyny/lightline.vim'
-Plug 'hzchirs/vim-material'
+Plug 'kaicataldo/material.vim'
+Plug 'benmills/vimux'
 call plug#end()
 
 " Dark
-set background=dark
-colorscheme vim-material
+"let g:material_terminal_italics = 1
+"let g:lightline = { 'colorscheme': 'material_vim' }
+"colorscheme material
 
 set laststatus=2

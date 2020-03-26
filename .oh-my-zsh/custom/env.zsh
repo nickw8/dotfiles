@@ -9,6 +9,9 @@ autoload -U +X bashcompinit && bashcompinit
 autoload -U +X compinit && compinit
 ###############################################################################
 
+## sbin to PATH
+export PATH="/usr/local/sbin:$PATH"
+
 # Makes sure zsh can run in iterm
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 ###############################################################################

@@ -10,6 +10,11 @@ alias cleardns="sudo killall -HUP mDNSResponder"
 ## Set up alias for managing dotfiles with git
 #alias dotfiles='/usr/bin/git --git-dir=/Users/nweight/.dotfiles/ --work-tree=/Users/nweight'
 alias git.dot='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias gda='git.dot add -f'
+alias gds='git.dot status'
+alias gdl='git.dot pull'
+alias gdp='git.dot push'
+alias gdc='git.dot commit -m'
 
 ## Kubernetes
 alias k="kubectl"
@@ -29,4 +34,7 @@ alias mtr="/usr/local/Cellar/mtr/0.93_1/sbin/mtr"
 alias cat='ccat'
 
 ## Edit zsh aliases
-alias zsh.aliases='vim ~/.oh-my-zsh/custom/aliases.zsh'
+alias zsh.aliases='${=EDITOR} ~/.oh-my-zsh/custom/aliases.zsh'
+
+## Quite like a Vim champ
+alias :q='exit'
