@@ -34,7 +34,7 @@ alias mtr="/usr/local/Cellar/mtr/0.93_1/sbin/mtr"
 alias cat='ccat'
 
 ## Edit zsh aliases
-alias zsh.aliases='${=EDITOR} ~/.oh-my-zsh/custom/aliases.zsh'
+alias zsh.aliases='vim ~/.oh-my-zsh/custom/aliases.zsh'
 
 ## Quite like a Vim champ
 alias :q='exit'
