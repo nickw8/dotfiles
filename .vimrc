@@ -21,6 +21,13 @@ call plug#end()
 set laststatus=2
 set modelines=1
 set nocompatible 
+set mouse=a                   " allows for mouse scroll and selection
+"if has('mac')       " osx
+"  set guifont=...
+" else                " linux, bsd, etc
+"  set guifont=...
+"endif
+set clipboard=unnamed         " puts yanked stuff into system clipboard
 " }}}
 
 " Tabs and Spaces {{{
