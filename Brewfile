@@ -41,6 +41,7 @@ cask "vagrant"
 cask "virtualbox"
 cask "docker"
 cask "font-hack-nerd-font"
+#cask "emacs"
 
 # brew cask "apps"
 #cask "keyboard-maestro"
