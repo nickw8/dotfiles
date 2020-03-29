@@ -1,1 +1,89 @@
-" VIMRC" author: Nick Weight" Setup {{{set nocompatible noremap <Space> <Nop>     " Remove previous space bar behavior as acting like move rightmap <Space> <Leader>      " Set Space bar as Leader" }}}" Vim-Plug {{{" Auto-installs vim-plugif empty(glob('~/.vim/autoload/plug.vim'))  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim  autocmd VimEnter * PlugInstall --sync | source $MYVIMRCendif" vim-plug automatically executes filetype plugin indent on and syntax enable.call plug#begin('~/.vim/plugged')Plug 'itchyny/lightline.vim'Plug 'benmills/vimux'Plug 'tpope/vim-surround'       " https://github.com/tpope/vim-surround - cs to wrap, yss to wrap line, ds to removePlug 'tpope/vim-commentary'     " https://github.com/tpope/vim-commentary - gcc to comment out a line (takes a count), gc to comment out the target of a motioncall plug#end()"}}}" Misc {{{set laststatus=2set modelines=1set mouse=a                   " allows for mouse scroll and selection"if has('mac')       " osx"  set guifont=..." else                " linux, bsd, etc"  set guifont=..."endifset clipboard=unnamed         " puts yanked stuff into system clipboard" }}}" Tabs and Spaces {{{set tabstop=2                 " number of visual spaces per TABset softtabstop=2             " number of spaces in tab when editingset expandtab                 " tabs are spaces" }}}" UI Config {{{set number                    " Show current line numberset relativenumber            " Show relative line numbersset showcmd             " show command in bottom barset cursorline          " highlight current lineset wildmenu            " visual autocomplete for command menuset lazyredraw          " redraw only when we need to.set showmatch           " highlight matching [{()}]" turn off search highlight" nnoremap <leader><space> :nohlsearch<CR>  " This breaks when leader is set" to spacefunction! NeatFoldText() "{{{2  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '  let lines_count = v:foldend - v:foldstart + 1  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'  let foldchar = matchstr(&fillchars, 'fold:\zs.')  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)  let foldtextend = lines_count_text . repeat(foldchar, 8)  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextendendfunctionset foldtext=NeatFoldText()" }}}2" }}}" Searching {{{set incsearch           " search as characters are enteredset hlsearch            " highlight matchesset path+=**"Tag Jumping:command! MakeTags !ctags -R ." Usage:" - Use ^] to jump to tag under cursor (includes external files)" - Use g^] for ambiguous tags (similiar tags in different file types)" - Use ^t to jump back up the tag stack"}}}" vim:foldmethod=marker:foldlevel=0
+" VIMRC
+" author: Nick Weight
+
+" Setup {{{
+set nocompatible 
+noremap <Space> <Nop>     " Remove previous space bar behavior as acting like move right
+map <Space> <Leader>      " Set Space bar as Leader
+" }}}
+
+" Vim-Plug {{{
+" Auto-installs vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" vim-plug automatically executes filetype plugin indent on and syntax enable.
+
+call plug#begin('~/.vim/plugged')
+Plug 'itchyny/lightline.vim'
+Plug 'benmills/vimux'
+Plug 'tpope/vim-surround'       " https://github.com/tpope/vim-surround - cs to wrap, yss to wrap line, ds to remove
+Plug 'tpope/vim-commentary'     " https://github.com/tpope/vim-commentary - gcc to comment out a line (takes a count), gc to comment out the target of a motion
+call plug#end()
+"}}}
+
+" Misc {{{
+set laststatus=2
+set modelines=1
+
+set mouse=a                   " allows for mouse scroll and selection
+"if has('mac')       " osx
+"  set guifont=...
+" else                " linux, bsd, etc
+"  set guifont=...
+"endif
+set clipboard=unnamed         " puts yanked stuff into system clipboard
+" }}}
+
+" Tabs and Spaces {{{
+set tabstop=2                 " number of visual spaces per TAB
+set softtabstop=2             " number of spaces in tab when editing
+set expandtab                 " tabs are spaces
+" }}}
+
+" UI Config {{{
+set number                    " Show current line number
+set relativenumber            " Show relative line numbers
+set showcmd             " show command in bottom bar
+set cursorline          " highlight current line
+set wildmenu            " visual autocomplete for command menu
+set lazyredraw          " redraw only when we need to.
+set showmatch           " highlight matching [{()}]
+" turn off search highlight
+" nnoremap <leader><space> :nohlsearch<CR>  " This breaks when leader is set
+" to space
+
+function! NeatFoldText() "{{{2
+  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+  let lines_count = v:foldend - v:foldstart + 1
+  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+  let foldchar = matchstr(&fillchars, 'fold:\zs.')
+  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+  let foldtextend = lines_count_text . repeat(foldchar, 8)
+  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
+set foldtext=NeatFoldText()
+" }}}2
+
+" }}}
+
+" Searching {{{
+set incsearch           " search as characters are entered
+set hlsearch            " highlight matches
+set path+=**
+
+"Tag Jumping:
+command! MakeTags !ctags -R .
+
+" Usage:
+" - Use ^] to jump to tag under cursor (includes external files)
+" - Use g^] for ambiguous tags (similiar tags in different file types)
+" - Use ^t to jump back up the tag stack
+
+"}}}
+
+" vim:foldmethod=marker:foldlevel=0
