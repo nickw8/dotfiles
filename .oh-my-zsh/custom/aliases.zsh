@@ -14,7 +14,7 @@ alias gda='git.dot add -f'
 alias gds='git.dot status'
 alias gdl='git.dot pull'
 alias gdp='git.dot push'
-alias gdc='git.dot commit -m'
+alias gdc='git.dot commit -am'
 
 ## Kubernetes
 alias k="kubectl"

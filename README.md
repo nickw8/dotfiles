@@ -1,6 +1,6 @@
 # dotfiles
 
-I love me some dotfiles testing
+I love me some dotfiles testing. Got this strategy from [this](https://medium.com/toutsbrasil/how-to-manage-your-dotfiles-with-git-f7aeed8adf8b) cool article.
 
 ## Setup:
 First you need to create a bare repo to track your dotfiles
@@ -26,7 +26,20 @@ git.dot push
 git.dot pull
 ```
 
+I added some other aliases for the most common actions. **NOTE** you only have to `git.dot add` new files, modified or deleted files will be picked up with `git.dot commit -am`
+
+```shell
+alias gda='git.dot add -f'
+alias gds='git.dot status'
+alias gdl='git.dot pull'
+alias gdp='git.dot push'
+alias gdc='git.dot commit -am'
+```
+
+
+
 ## Setup on New Computer:
+
 Clone your bare repo
 ```shell
 git clone --bare https://github.com/nickw8/dotfiles.git $HOME/.dotfiles
