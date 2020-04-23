@@ -46,7 +46,7 @@ plugins=(
   iterm2
   osx
   python
-  ssh-agent
+#  ssh-agent
   sudo
   systemadmin
   terraform
@@ -56,6 +56,7 @@ plugins=(
   zsh-autosuggestions
   zsh-completions
   fzf
+  fasd
 )
 
 export ZSH="$HOME/.oh-my-zsh"

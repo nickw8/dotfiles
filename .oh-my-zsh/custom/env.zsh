@@ -21,6 +21,9 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$(go env GOPATH)/bin
 ###############################################################################
 
+## Doom Emacs
+export PATH=$PATH:~/.emacs.d/bin
+
 ## NVM ##
 export NVM_DIR="$HOME/.nvm"
 # Load nvm
@@ -39,15 +42,17 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 ## Kubernetes ##
 # Custom kubenetes script to import kubeconfigs
-CUSTOM_KUBE_CONTEXTS="$HOME/.kube/custom-contexts"
-mkdir -p "${CUSTOM_KUBE_CONTEXTS}"
-OIFS="$IFS"
-IFS=$'\n'
-for contextFile in `find "${CUSTOM_KUBE_CONTEXTS}" -type f -name "*.yml"`  
-do
-    export KUBECONFIG="$contextFile:$KUBECONFIG"
-done
-IFS="$OIFS"
+export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config
+
+# CUSTOM_KUBE_CONTEXTS="$HOME/.kube/custom-contexts"
+# mkdir -p "${CUSTOM_KUBE_CONTEXTS}"
+# OIFS="$IFS"
+# IFS=$'\n'
+# for contextFile in `find "${CUSTOM_KUBE_CONTEXTS}" -type f -name "*.yml"`  
+# do
+#     export KUBECONFIG="$contextFile:$KUBECONFIG"
+# done
+# IFS="$OIFS"
 ###############################################################################
 
 ## AWS ##
