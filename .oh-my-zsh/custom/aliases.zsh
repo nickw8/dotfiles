@@ -38,3 +38,6 @@ alias zsh.aliases='vim ~/.oh-my-zsh/custom/aliases.zsh'
 
 ## Quite like a Vim champ
 alias :q='exit'
+
+## cli to open typora
+alias typora="open -a typora"
