@@ -6,6 +6,7 @@ set nocompatible
 " noremap <Space> <Nop>     " Remove previous space bar behavior as acting like move right
 " map <Space> <leader>      " Set Space bar as Leader
 let mapleader = "\<Space>"
+set backspace=indent,eol,start
 " }}}
 
 " Vim-Plug {{{
@@ -26,6 +27,8 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-surround'       " https://github.com/tpope/vim-surround - cs to wrap, yss to wrap line, ds to remove
 Plug 'tpope/vim-commentary'     " https://github.com/tpope/vim-commentary - gcc to comment out a line (takes a count), gc to comment out the target of a motion
 " Plug 'easymotion/vim-easymotion.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 "}}}
@@ -34,6 +37,10 @@ call plug#end()
 
 map <Leader>vp :VimuxPromptCommand<CR>
 
+" }}}
+
+" FZF {{{
+nnoremap <C-p> :Files<Cr>
 " }}}
 
 " Misc {{{
@@ -71,7 +78,7 @@ set wildmenu            " visual autocomplete for command menu
 set lazyredraw          " redraw only when we need to.
 set showmatch           " highlight matching [{()}]
 " turn off search highlight
-nnoremap <Leader><Space> :nohl<CR>  
+nnoremap <Leader>c :nohl<CR>  
 
 function! NeatFoldText() "{{{2
   let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '

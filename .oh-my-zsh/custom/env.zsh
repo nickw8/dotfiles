@@ -77,3 +77,8 @@ if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
         source /etc/profile.d/vte.sh
 fi
 ###############################################################################
+
+## FZF ##
+# Make fzf use rg:
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+###############################################################################
