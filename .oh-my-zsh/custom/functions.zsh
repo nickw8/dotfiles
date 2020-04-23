@@ -10,9 +10,11 @@ aws.sso() {
 }
 
 tmx() {
+  # Get the current directory's name
 	DIR_NAME=${PWD##*/}
+  # Replace any '.' in the name since tmux hates that
 	SESS_NAME=${DIR_NAME/./dot_}
-	echo ${SESS_NAME}
+	# Try to attach to an existing session, if not, create a new one
 	tmux attach -t ${SESS_NAME} || tmux new -s ${SESS_NAME} 
 }
 
