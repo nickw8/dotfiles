@@ -7,6 +7,9 @@ set nocompatible
 " map <Space> <leader>      " Set Space bar as Leader
 let mapleader = "\<Space>"
 set backspace=indent,eol,start
+
+" Make switch from insert to normal faster
+set timeoutlen=1000 ttimeoutlen=100
 " }}}
 
 " Vim-Plug {{{
@@ -72,13 +75,25 @@ set splitright
 " UI Config {{{
 set number                    " Show current line number
 set relativenumber            " Show relative line numbers
-set showcmd             " show command in bottom bar
-set cursorline          " highlight current line
-set wildmenu            " visual autocomplete for command menu
-set lazyredraw          " redraw only when we need to.
-set showmatch           " highlight matching [{()}]
+set showcmd                   " show command in bottom bar
+set cursorline                " highlight current line
+set wildmenu                  " visual autocomplete for command menu
+set lazyredraw                " redraw only when we need to.
+set showmatch                 " highlight matching [{()}]
+
 " turn off search highlight
 nnoremap <Leader>c :nohl<CR>  
+
+" Disable auto-comments
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" Alow Alt+(h/j) movement of lines or blocks - could not get this to work in iTerm or tmux. TODO keep researching
+" nnoremap <M-j> :m .+1<CR>==
+" nnoremap <M-k> :m .-2<CR>==
+" inoremap <M-j> <Esc>:m .+1<CR>==gi
+" inoremap <M-k> <Esc>:m .-2<CR>==gi
+" vnoremap <M-j> :m '>+1<CR>gv=gv
+" vnoremap <M-k> :m '<-2<CR>gv=gv
 
 function! NeatFoldText() "{{{2
   let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
@@ -92,6 +107,9 @@ function! NeatFoldText() "{{{2
 endfunction
 set foldtext=NeatFoldText()
 " }}}2
+
+" Fold comment blocks
+set foldmethod=expr foldexpr=getline(v:lnum)=~'^\s*'.&commentstring[0]  
 
 " }}}
 
