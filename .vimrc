@@ -44,6 +44,7 @@ map <Leader>vp :VimuxPromptCommand<CR>
 
 " FZF {{{
 nnoremap <C-p> :Files<Cr>
+nnoremap <C-b> :Buffer<Cr>
 " }}}
 
 " Misc {{{
