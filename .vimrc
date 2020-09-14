@@ -1,12 +1,11 @@
-" VIMRC
+"godlygeek/tabular VIMRC
 " author: Nick Weight
 
 " Setup {{{
 set nocompatible 
-" noremap <Space> <Nop>     " Remove previous space bar behavior as acting like move right
-" map <Space> <leader>      " Set Space bar as Leader
 let mapleader = "\<Space>"
 set backspace=indent,eol,start
+set hidden                  " Makes it so I dont have to save a write before switching buffers
 
 " Make switch from insert to normal faster
 set timeoutlen=1000 ttimeoutlen=100
@@ -27,11 +26,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'itchyny/lightline.vim'
 Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'tpope/vim-surround'       " https://github.com/tpope/vim-surround - cs to wrap, yss to wrap line, ds to remove
-Plug 'tpope/vim-commentary'     " https://github.com/tpope/vim-commentary - gcc to comment out a line (takes a count), gc to comment out the target of a motion
-" Plug 'easymotion/vim-easymotion.vim'
+Plug 'tpope/vim-surround'                           " https://github.com/tpope/vim-surround - cs to wrap, yss to wrap line, ds to remove
+Plug 'tpope/vim-commentary'                         " https://github.com/tpope/vim-commentary - gcc to comment out a line (takes a count), gc to comment out the target of a motion
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'godlygeek/tabular'                            " https://github.com/godlygeek/tabular - aligns text
 call plug#end()
 
 "}}}
@@ -126,6 +125,30 @@ command! MakeTags !ctags -R .
 " - Use ^] to jump to tag under cursor (includes external files)
 " - Use g^] for ambiguous tags (similiar tags in different file types)
 " - Use ^t to jump back up the tag stack
+
+"}}}
+
+" Wrangling Swap files {{{
+set undofile
+set undolevels=1000         " How many undos
+set undoreload=10000        " number of lines to save for undo
+
+set backup                        " enable backups
+set swapfile                      " enable swaps
+set undodir=$HOME/.vim/tmp/undo     " undo files
+set backupdir=$HOME/.vim/tmp/backup " backups
+set directory=$HOME/.vim/tmp/swap   " swap files
+
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
 
 "}}}
 
