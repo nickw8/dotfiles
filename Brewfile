@@ -55,6 +55,7 @@ brew "terraform-docs"
 brew "octant"
 brew "terraform"
 brew "git-extras"
+brew "tfenv"
 
 # brew cask "SRE Dev Tools"
 #cask "vagrant"
