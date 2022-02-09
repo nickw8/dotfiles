@@ -44,15 +44,14 @@ plugins=(
   gpg-agent
   history
   iterm2
-  osx
+  macos
   python
-#  ssh-agent
   sudo
   systemadmin
   terraform
-  vi-mode
+  #vi-mode
   vscode
-  zsh-syntax-highlighting # Slow paste
+  fast-syntax-highlighting
   zsh-autosuggestions
   zsh-completions
   fzf
@@ -71,3 +70,4 @@ source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+test -e /Users/nweight/.iterm2_shell_integration.zsh && source /Users/nweight/.iterm2_shell_integration.zsh || true

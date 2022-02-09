@@ -57,7 +57,7 @@ export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config
 
 ## AWS ##
 # Better AWS completion Plugin
-source $HOME/.oh-my-zsh/custom/plugins/fzf-tab-completion/zsh/fzf-zsh-completion.sh 
+#source $HOME/.oh-my-zsh/custom/plugins/fzf-tab-completion/zsh/fzf-zsh-completion.sh 
 # only aws command completion 
 zstyle ':completion:*:*:aws' fzf-search-display true
 # or for everything
