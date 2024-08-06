@@ -1,12 +1,6 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 autoload -Uz compinit && compinit
 
+# ---- Zinit -----
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -19,9 +13,10 @@ fi
 # Source/Load zinit
 source "$ZINIT_HOME/zinit.zsh"
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
 # zinit plugins
+zinit ice depth=1
+zinit light romkatv/powerlevel10k
+
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 zinit snippet OMZP::aws
@@ -43,12 +38,18 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice wait lucid
 zinit light zsh-users/zsh-syntax-highlighting
 
-# # Self update
-# zinit ice wait lucid
-# zinit self-update
-# # Increase the number of jobs in a concurrent-set to 40 for Plugin updates
-# zinit ice wait lucid
-# zinit update --parallel 40
+# Self update
+zinit ice wait lucid
+zinit self-update
+# Increase the number of jobs in a concurrent-set to 40 for Plugin updates
+zinit ice wait lucid
+zinit update --parallel 40
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n] confirmations, etc.) or code that sendds output to the terminal must go above this block; everything else may go below this block.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
