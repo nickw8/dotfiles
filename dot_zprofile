@@ -1,3 +1,7 @@
+# Purpose: This file is sourced for login shells i.e. login, interactive, and non-interactive shells.
+# Use: It is commonly used to set environment variables and other configurations that should only be set once at the start of a login session.
+# Example: Setting the PATH variable, initializing environment settings, and running commands that should only be executed once per login.
+
 source "$HOME/.profile"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 source "$HOME/.rye/env"

@@ -1,2 +1,6 @@
+# Purpose: This file is sourced for all shell sessions, including login, interactive, and non-interactive shells i.e. Universal environment settings.
+# Use: It is typically used to set environment variables that should be available to all types of shell sessions.
+# Example: Setting the PATH variable or other environment variables that need to be universally accessible.
+
 . "$HOME/.cargo/env"
 source "$HOME/.rye/env"
