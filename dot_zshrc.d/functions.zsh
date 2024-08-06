@@ -59,3 +59,9 @@ aws_sso_expiry() {
         echo "$result"
     fi
 }
+
+# Update zinit and plugins
+update_zinit() {
+    zinit self-update
+    zinit update --parallel 40
+}
