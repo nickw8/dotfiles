@@ -1,0 +1,55 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "terminal": {
+    "dock": "right",
+    "copy_on_select": true
+  },
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+  "base_keymap": "VSCode",
+  "theme": "Ayu Dark",
+  "vim_mode": true,
+  "ui_font_size": 14,
+  "buffer_font_size": 11,
+  "buffer_font_family": "MesloLGS NF",
+  "format_on_save": "on",
+  "formatter": "auto",
+  "features": {
+    "inline_completion_provider": "supermaven"
+  },
+  "tabs": {
+    "git_status": true
+  },
+  "lsp": {
+    "terraform-ls": {
+      "command": "terraform-ls",
+      "args": ["serve"],
+      "initialization_options": {
+        "experimentalFeatures": {
+          "prefillRequiredFields": true,
+          "validateOnSave": true
+        }
+      }
+    }
+  },
+  "languages": {
+    "Terraform": {
+      "formatter": {
+        "external": {
+          "command": "terraform",
+          "arguments": ["fmt", "-"]
+        }
+      }
+    }
+  }
+}
