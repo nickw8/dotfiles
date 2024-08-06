@@ -5,22 +5,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Set the GPG_TTY to be the same as the TTY, either via the env var
-# or via the tty command.
-if [ -n "$TTY" ]; then
-  export GPG_TTY=$(tty)
-else
-  export GPG_TTY="$TTY"
-fi
-
-# Add Homebrew's executable directory to the front of the PATH
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# Add .local/bin to the front of the PATH
-PATH="$HOME/.local/bin:$PATH"
-
-# Source rye environment for python
-source "$HOME/.rye/env"
+# Source completions added by applications installed by homebrew
 PATH=$(brew --prefix)/share/zsh/site-functions:$PATH
 
 autoload -Uz compinit && compinit
@@ -72,170 +57,15 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 # ---- FZF -----
-# Set up fzf key bindings and fuzzy completion
-eval "$(fzf --zsh)"
+source "$HOME/.zshrc.d/fzf-conf.zsh"
 
-# -- Use fd instead of fzf --
-export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-
-# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
-# - The first argument to the function ($1) is the base path to start traversal
-# - See the source code (completion.{bash,zsh}) for the details.
-_fzf_compgen_path() {
-  fd --hidden --exclude .git . "$1"
-}
-
-# Use fd to generate the list for directory completion
-_fzf_compgen_dir() {
-  fd --type=d --hidden --exclude .git . "$1"
-}
-
-source ~/.config/fzf/fzf-git.sh/fzf-git.sh
-
-show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
-export -f show_file_or_dir_preview
-
-export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
-
-# Advanced customization of fzf options via _fzf_comprun function
-# - The first argument to the function is the name of the command.
-# - You should make sure to pass the rest of the arguments to fzf.
-_fzf_comprun() {
-  local command=$1
-  shift
-
-  case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo ${}'"         "$@" ;;
-    ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
-  esac
-}
-
-# ---- fzf-tab Setings -----
-zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
-zstyle ':fzf-tab:*' accept-line enter
-
-# # ---- fzf-tab Completions -----
-LS_COLORS=${LS_COLORS:-'di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'}
-
-# apply ls colors
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:default' list-prompt '%S%M matches%s'
-
-# pretty cd [tab] stuffs
-zstyle ':completion:*:directory-stack' list-colors '=(#b) #([0-9]#)*( *)==95=38;5;12'
-
-# highlight case in select
-zstyle ':completion:*' menu select
-
-# Use caching to make completion for commands such as dpkg and apt usable.
-zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "$HOME/.zcompcache"
-
-# case insensitive path-completion
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-unsetopt CASE_GLOB
-
-# Group matches and describe.
-zstyle ':completion:*:*:*:*:*' menu select
-zstyle ':completion:*:matches' group 'yes'
-zstyle ':completion:*:options' description 'yes'
-zstyle ':completion:*:options' auto-description '%d'
-zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
-zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
-zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
-zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
-zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' verbose yes
-
-# Fuzzy match mistyped completions.
-zstyle ':completion:*' completer _complete _match _approximate
-zstyle ':completion:*:match:*' original only
-zstyle ':completion:*:approximate:*' max-errors 1 numeric
-
-# Increase the number of errors based on the length of the typed word. But make
-# sure to cap (at 7) the max-errors to avoid hanging.
-zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3>7?7:($#PREFIX+$#SUFFIX)/3))numeric)'
-
-# Don't complete unavailable commands.
-zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
-
-# Array completion element sorting.
-zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
-
-# Directories
-zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
-zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
-zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
-zstyle ':completion:*' squeeze-slashes true
-
-# History
-zstyle ':completion:*:history-words' stop yes
-zstyle ':completion:*:history-words' remove-all-dups yes
-zstyle ':completion:*:history-words' list false
-zstyle ':completion:*:history-words' menu yes
-
-# Environment Variables
-zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-value-*]#*,}%%,*}:#-*-}
-
-# Populate hostname completion. But allow ignoring custom entries from static
-# */etc/hosts* which might be uninteresting.
-zstyle -e ':completion:*:hosts' hosts 'reply=(
-  ${=${=${=${${(f)"$(cat {/etc/ssh/ssh_,~/.ssh/}known_hosts(|2)(N) 2> /dev/null)"}%%[#| ]*}//\]:[0-9]*/ }//,/ }//\[/ }
-  ${=${(f)"$(cat /etc/hosts(|)(N) <<(ypcat hosts 2> /dev/null))"}%%(\#${_etc_host_ignores:+|${(j:|:)~_etc_host_ignores}})*}
-  ${=${${${${(@M)${(f)"$(cat ~/.ssh/config 2> /dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
-)'
-
-# Don't complete uninteresting users...
-zstyle ':completion:*:*:*:users' ignored-patterns \
-       adm amanda apache avahi beaglidx bin cacti canna clamav daemon \
-       dbus distcache dovecot fax ftp games gdm gkrellmd gopher \
-       hacluster haldaemon halt hsqldb ident junkbust ldap lp mail \
-       mailman mailnull mldonkey mysql nagios \
-       named netdump news nfsnobody nobody nscd ntp nut nx openvpn \
-       operator pcap postfix postgres privoxy pulse pvm quagga radvd \
-       rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs '_*'
-
-# Ignore multiple entries.
-zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
-zstyle ':completion:*:rm:*' file-patterns '*:all-files'
-
-# Kill
-zstyle ':completion:*:*:*:*:processes' command 'ps -u $LOGNAME -o pid,user,command -w'
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;36=0=01'
-zstyle ':completion:*:*:kill:*' menu yes select
-zstyle ':completion:*:*:kill:*' force-list always
-zstyle ':completion:*:*:kill:*' insert-ids single
-
-# Man
-# enable completion on manual page
-zstyle ':completion:*:manuals'    separate-sections true
-zstyle ':completion:*:manuals.*'  insert-sections   true
-# zstyle ':completion:*:manuals.(^1*)' insert-sections true
-zstyle ':completion:*:man:*'      menu yes select
-
-# SSH/SCP/RSYNC
-zstyle ':completion:*:(ssh|scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
-zstyle ':completion:*:(scp|rsync):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
-zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hosts-ipaddr
-zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
-zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
-zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
-
-# partial completion suggestions
-zstyle ':completion:*' list-suffixes
-zstyle ':completion:*' expand prefix suffix
+# ---- fzf-tab Completions -----
+source "$HOME/.zshrc.d/zstyle-completions.zsh"
 
 # ---- Completion Sources -----
 source <(kubectl completion zsh)
 source "$HOME/.zshrc.d/tenv-completions.zsh"
 source "$HOME/.zshrc.d/rye-completions"
-
 
 zinit cdreplay -q
 
@@ -250,48 +80,11 @@ eval "$(zoxide init --cmd cd zsh)"
 eval "$(atuin init zsh)"
 source "$HOME/.zshrc.d/atuin-history-arrow.zsh"
 
-# ---- Starship -----
-# if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-#    eval "$(starship init zsh)"
-# fi
-
-# ---- zsh History -----
-# HISTSIZE=5000
-# HISTFILE="$HOME/.zsh_history"
-# SAVEHIST=$HISTSIZE
-# HISTDUP=erase
-# setopt appendhistory
-# setopt sharehistory
-# setopt hist_ignore_space
-# setopt hist_ignore_all_dups
-# setopt hist_save_no_dups
-# setopt hist_ignore_dups
-# setopt hist_find_no_dups
-
 # ---- Aliases -----
-alias k=kubectl
-alias kx=kubectx
-alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
-alias ll="eza --all --grid --group-directories-first --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
-alias cat='bat'
-alias gpat='git push && git push --tags'
-alias bump='cz bump --yes'
+source "$HOME/.zshrc.d/aliases.zsh"
 
 # ---- Functions -----
-# Uses 'terrafor-user' profile for aws cli commands by default but can be overridden by setting AWS_PROFILE
-export AWS_PROFILE=terraform-user
-aws() {
-  local profile=${AWS_PROFILE:-terraform-user}
-  command aws "$@" --profile $profile
-}
-
-
-
-# ---- Carapace (autocompletions) -----
-# export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
-# export CARAPACE_MATCH=CASE_INSENSITIVE
-# source <(carapace _carapace)
-
+source "$HOME/.zshrc.d/functions.zsh"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -304,57 +97,3 @@ export NVM_DIR="$HOME/.nvm"
 # https://direnv.net/
 # Allows you to create and manage per-directory environments
 eval "$(direnv hook zsh)"
-
-aws_sso_expiry() {
-    local cache_dir="$HOME/.aws/cli/cache"
-    local latest_file
-    local expires_at
-    local now
-    local time_diff
-    local days
-    local hours
-    local minutes
-    local result
-
-    # Find the most recently updated JSON file
-    latest_file=$(find "$cache_dir" -type f -name "*.json" -print0 | xargs -0 ls -t | head -n 1)
-
-    if [[ -z "$latest_file" ]]; then
-        echo "No SSO cache files found"
-        return 1
-    fi
-
-    # Extract expiresAt value using jq
-    expires_at=$(jq -r '.Credentials.Expiration' "$latest_file")
-
-    if [[ -z "$expires_at" || "$expires_at" == "null" ]]; then
-        echo "No Expiration value found"
-        return 1
-    fi
-
-    # Get current time in UTC
-    now=$(date -u +%s)
-
-    # Convert expiresAt to Unix timestamp (macOS compatible)
-    expires_at=$(date -j -u -f "%Y-%m-%dT%H:%M:%SZ" "$expires_at" "+%s")
-
-    # Calculate time difference
-    time_diff=$((expires_at - now))
-
-    if ((time_diff < 0)); then
-        echo "expired"
-    else
-        # Convert to days, hours, minutes
-        days=$((time_diff / 86400))
-        hours=$(( (time_diff % 86400) / 3600 ))
-        minutes=$(( (time_diff % 3600) / 60 ))
-
-        # Construct result string, omitting zero values
-        result=""
-        [[ $days -gt 0 ]] && result+="${days}d|"
-        [[ $hours -gt 0 ]] && result+="${hours}h|"
-        result+="${minutes}m"
-
-        echo "$result"
-    fi
-}

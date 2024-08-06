@@ -2,5 +2,13 @@
 # Use: It is typically used to set environment variables that should be available to all types of shell sessions.
 # Example: Setting the PATH variable or other environment variables that need to be universally accessible.
 
+# Set the GPG_TTY to be the same as the TTY, either via the env var
+# or via the tty command.
+if [ -n "$TTY" ]; then
+  export GPG_TTY=$(tty)
+else
+  export GPG_TTY="$TTY"
+fi
+
+# Script that adds rust ecutables to the path
 . "$HOME/.cargo/env"
-source "$HOME/.rye/env"

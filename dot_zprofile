@@ -2,6 +2,14 @@
 # Use: It is commonly used to set environment variables and other configurations that should only be set once at the start of a login session.
 # Example: Setting the PATH variable, initializing environment settings, and running commands that should only be executed once per login.
 
+# Source the .profile file incase anything was added there by applications
 source "$HOME/.profile"
+
+# Add Homebrew's executable directory to the front of the PATH
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Source rye environment for python
 source "$HOME/.rye/env"
+
+# Add .local/bin to the front of the PATH
+PATH="$HOME/.local/bin:$PATH"
