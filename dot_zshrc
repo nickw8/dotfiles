@@ -16,9 +16,12 @@ fi
 # Add Homebrew's executable directory to the front of the PATH
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# Add .local/bin to the front of the PATH
+PATH="$HOME/.local/bin:$PATH"
+
 # Source rye environment for python
 source "$HOME/.rye/env"
-FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+PATH=$(brew --prefix)/share/zsh/site-functions:$PATH
 
 autoload -Uz compinit && compinit
 
