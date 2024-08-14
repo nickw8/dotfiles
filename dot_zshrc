@@ -92,3 +92,7 @@ eval "$(direnv hook zsh)"
 # ---- AWS -----
 # export the AWS_PROFILE environment variable so that the prompt can display the correct AWS information
 export AWS_PROFILE=terraform-user
+
+# ---- Terraform -----
+# export the plugin cache directory to avoid downloading plugins every time
+export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
