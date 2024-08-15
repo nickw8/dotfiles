@@ -26,7 +26,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
 fi
 
 # Source rye environment for python
-source "$HOME/.rye/env"
+# source "$HOME/.rye/env"
 
 # Add .local/bin to the front of the PATH
 PATH="$HOME/.local/bin:$PATH"
