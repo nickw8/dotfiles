@@ -36,8 +36,13 @@ aws_sso_expiry() {
     # Get current time in UTC
     now=$(date -u +%s)
 
-    # Convert expiresAt to Unix timestamp (macOS compatible)
-    expires_at=$(date -j -u -f "%Y-%m-%dT%H:%M:%SZ" "$expires_at" "+%s")
+    if [[ "$(uname)" == "Darwin" ]]; then
+	# macOS
+        expires_at=$(date -j -u -f "%Y-%m-%dT%H:%M:%SZ" "$expires_at" "+%s")
+    else
+	# Linux
+	    expires_at=$(date -u --date="$expires_at" "+%s")
+    fi
 
     # Calculate time difference
     time_diff=$((expires_at - now))

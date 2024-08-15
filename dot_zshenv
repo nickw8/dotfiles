@@ -16,11 +16,14 @@ fi
 # Source the .zprofile file incase anything was added there by applications
 source "$HOME/.zprofile"
 
-# Add Homebrew's executable directory to the front of the PATH
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Detect operating system
+if [[ "$(uname)" == "Darwin" ]]; then
+    # Add Homebrew's executable directory to the front of the PATH
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Source completions added by applications installed by homebrew
-PATH=$(brew --prefix)/share/zsh/site-functions:$PATH
+    # Source completions added by applications installed by homebrew
+    PATH=$(brew --prefix)/share/zsh/site-functions:$PATH
+fi
 
 # Source rye environment for python
 source "$HOME/.rye/env"
