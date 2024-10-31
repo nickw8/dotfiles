@@ -1,98 +1,195 @@
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+if [ "$(date +'%j')" != "$(date -d "$(stat -c %y "${ZDOTDIR:-$HOME}/.zcompdump")" +'%j')" ]; then
+  compinit
+else
+  compinit -C
+fi
+
+# ---- Profiling -----
+# zmodload zsh/zprof
+
+# ---- Helper Methods -----
+function error() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1 }
+function info() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
 
 # ---- Zinit -----
-# Set the directory we want to store zinit and plugins
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+typeset -gAH ZINIT;
+ZINIT[HOME_DIR]=$HOME/.local/share/zsh/zinit;  ZPFX=$ZINIT[HOME_DIR]/polaris
+ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
+ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions; ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
+ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump;    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
+ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
 
-# Download Zinit, if it's not there yet
-if [ ! -d "$ZINIT_HOME" ]; then
-   mkdir -p "$(dirname $ZINIT_HOME)"
-   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+if [[ ! -e $ZINIT[BIN_DIR] ]]; then
+  info 'downloading zinit' \
+  && command mkdir -pv ${ZINIT[HOME_DIR]} \
+  && command git clone \
+    https://github.com/${ZI_REPO}/zinit.git \
+    ${ZINIT[BIN_DIR]} \
+  || error 'failed to clone zinit repository' \
+  && info 'setting up zinit' \
+  && command chmod g-rwX ${ZINIT[HOME_DIR]} \
+  && zcompile ${ZINIT[BIN_DIR]}/zinit.zsh \
+  && info 'sucessfully installed zinit'
 fi
 
-# Source/Load zinit
-source "$ZINIT_HOME/zinit.zsh"
+if [[ -e ${ZINIT[BIN_DIR]}/zinit.zsh ]]; then
+  source ${ZINIT[BIN_DIR]}/zinit.zsh && \
+    autoload -Uz _zinit && \
+    (( ${+_comps} )) && \
+    _comps[zinit]=_zinit
+else error "unable to find 'zinit.zsh'" && return 1
+fi
 
-# zinit plugins
-zinit ice depth=1
+# ---- Zinit: Oh-My-Zsh & Prezto Plugins -----
+zinit wait lucid for is-snippet \
+    OMZL::{'clipboard','compfix','completion','git','grep'}.zsh \
+    OMZP::git \
+    OMZP::sudo \
+    OMZP::aws \
+    OMZP::kubectl \
+    OMZP::kubectx \
+    OMZP::rust \
+    OMZP::command-not-found \
+    OMZP::eza
+
+zinit wait lucid as'completion' for \
+    OMZP::'terraform/_terraform'
+
+zinit wait lucid is-snippet for \
+    $HOME/.zshrc.d/atuin-history-arrow.zsh \
+    $HOME/.zshrc.d/aliases.zsh \
+    $HOME/.zshrc.d/functions.zsh \
+      as'completion' \
+    $HOME/.zshrc.d/zstyle-completions.zsh
+
+# ---- Zinit: Completions -----
+local GH_RAW_URL='https://raw.githubusercontent.com'
+install_completion(){ zinit wait lucid for as'completion' nocompile id-as"$1" is-snippet "$GH_RAW_URL/$2"; }
+# install_completion 'brew-completion/_brew'     'Homebrew/brew/master/completions/zsh/_brew'
+# install_completion 'docker-completion/_docker' 'docker/cli/master/contrib/completion/zsh/_docker'
+install_completion 'eza-completion/_eza'       'eza-community/eza/main/completions/zsh/_eza'
+install_completion 'fd-completion/_fd'         'sharkdp/fd/master/contrib/completion/_fd'
+
+# ---- Zinit: ANNEXES -----
+zi lucid light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
+
+# ---- Zinit: GH Binaries -----
+zi wait lucid from'gh-r' lbin'!' nocompile for \
+  @dandavison/delta      @junegunn/fzf \
+  @koalaman/shellcheck   @sharkdp/fd \
+  lbin'!* -> shfmt'      @mvdan/sh \
+  lbin'!**/rg'           @BurntSushi/ripgrep \
+  lbin atinit"
+    alias ll='eza --all --grid --group-directories-first --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions';
+    alias l='eza -blF';
+    alias la='eza -gla';
+    alias ls='eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions'" \
+  @eza-community/eza
+
+# ---- Zinit: Programs -----
+zi wait lucid light-mode from'gh-r' lbin'!' as'program'  nocompile'!' for \
+    atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
+    src="zhook.zsh" \
+  direnv/direnv \
+    atclone'./tenv completion zsh > _tenv' atpull'%atclone' \
+    src="_tenv" \
+  tofuutils/tenv
+
+# ---- Zinit: Commands -----
+zi wait lucid light-mode from"gh-r" lbin"!" as"command" for \
+    atclone"./zoxide init --cmd cd zsh > init.zsh" \
+    atpull"%atclone" src"init.zsh" nocompile'!' \
+  ajeetdsouza/zoxide \
+    atclone"./atuin init zsh > init.zsh; ./atuin gen-completions --shell zsh > _atuin" \
+    atpull"%atclone" multisrc"init.zsh _atuin" \
+  atuinsh/atuin
+
+# ---- Zinit: Prompt -----
+# Uncomment below on first run
+# zinit ice wait'!' lucid atload'true; _p9k_precmd' nocd
+# Uncomment below on subsequent runs
+zinit ice wait'!' lucid atload'source ~/.p10k.zsh; _p9k_precmd' nocd
 zinit light romkatv/powerlevel10k
 
-zinit snippet OMZP::git
-zinit snippet OMZP::sudo
-zinit snippet OMZP::aws
-zinit snippet OMZP::kubectl
-zinit snippet OMZP::kubectx
-zinit snippet OMZP::rust
-zinit snippet OMZP::command-not-found
-zinit snippet OMZP::eza
+# ---- Zinit: zsh-vim-mode cursor configuration -----
+# MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
+# MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
+# MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f';   MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
+# MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinking underline"
+setopt PROMPT_SUBST;  export KEYTIMEOUT=1; export LANG=en_US.UTF-8; export LC_ALL="en_US.UTF-8";
+export LC_COLLATE='C'; export LESS='-RMs'; export PAGER=less;       #export VISUAL=vi
+RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 
-zinit ice wait lucid
-zinit light Aloxaf/fzf-tab
+# ---- Zinit: Misc. -----
+zinit wait lucid light-mode for \
+  Aloxaf/fzf-tab \
+    atpull'zinit creinstall -q .' blockf \
+  zsh-users/zsh-completions \
+    atload'_zsh_autosuggest_start' \
+    atinit"
+      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
+      bindkey '^_' autosuggest-execute
+      bindkey '^ ' autosuggest-accept" \
+  zsh-users/zsh-autosuggestions \
+    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
+    atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
+    compile'.*fast*~*.zwc' nocompletions \
+  $ZI_REPO/fast-syntax-highlighting
 
-zinit ice wait lucid
-zinit light zsh-users/zsh-completions
-
-zinit ice wait lucid atload'_zsh_autosuggest_start'
-zinit light zsh-users/zsh-autosuggestions
-
-zinit ice wait lucid
-zinit light zsh-users/zsh-syntax-highlighting
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n] confirmations, etc.) or code that sends output to the terminal must go above this block; everything else may go below this block.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
-# ---- FZF -----
-source "$HOME/.zshrc.d/fzf-conf.zsh"
-
-# ---- fzf-tab Completions -----
-source "$HOME/.zshrc.d/zstyle-completions.zsh"
-
-# ---- Completion Sources -----
-source <(kubectl completion zsh)
-source "$HOME/.zshrc.d/tenv-completions.zsh"
-source "$HOME/.zshrc.d/rye-completions"
-
-zinit cdreplay -q
+zinit for atload'
+      zicompinit; zicdreplay
+      _zsh_highlight_bind_widgets
+      _zsh_autosuggest_bind_widgets' \
+    as'null' id-as'zinit/cleanup' lucid nocd wait \
+  $ZI_REPO/null
 
 # ----- Bat (better cat) -----
 export BAT_THEME="Visual Studio Dark+"
 
-# ---- Zoxide (better cd) ----
-eval "$(zoxide init --cmd cd zsh)"
+# ---- Lazy load nvm -----
+# Check if 'nvm' is a command in $PATH
+# apparently you can install the omz plugin with lazy tag
+# if [ $command[nvm] ]; then
 
-# ---- Atuin (better history) -----
-. "$HOME/.atuin/bin/env"
-eval "$(atuin init zsh)"
-source "$HOME/.zshrc.d/atuin-history-arrow.zsh"
+#   # Placeholder 'nvm' shell function:
+#   # will only be executed on the first call to 'nvm'
+#   nvm() {
 
-# ---- Aliases -----
-source "$HOME/.zshrc.d/aliases.zsh"
+#     # Removes this function. Subsequent calls will execute 'nvm' directly
+#     unfunction "$0"
 
-# ---- Functions -----
-source "$HOME/.zshrc.d/functions.zsh"
+#     export NVM_DIR="$HOME/.nvm"
+#     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#     $0 "$@"
+#   }
+# fi
 
-# --- direnv ---
-# https://direnv.net/
-# Allows you to create and manage per-directory environments
-eval "$(direnv hook zsh)"
+# Check if 'kubectl' is a command in $PATH
+# if [ $commands[kubectl] ]; then
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+#   # Placeholder 'kubectl' shell function:
+#   # Will only be executed on the first call to 'kubectl'
+#   kubectl() {
 
-# ---- AWS -----
-# export the AWS_PROFILE environment variable so that the prompt can display the correct AWS information
-export AWS_PROFILE=terraform-user
+#     # Remove this function, subsequent calls will execute 'kubectl' directly
+#     unfunction "$0"
 
-# ---- Terraform -----
-# export the plugin cache directory to avoid downloading plugins every time
-export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
+#     # Load auto-completion
+#     source <(kubectl completion zsh)
+
+#     # Execute 'kubectl' binary
+#     $0 "$@"
+#   }
+# fi
+
+# Convert to zinit for brew
+# if [[ "$(uname)" == "Darwin" ]]; then
+#     # Add Homebrew's executable directory to the front of the PATH
+#     eval "$(/opt/homebrew/bin/brew shellenv)"
+
+#     # Source completions added by applications installed by homebrew
+#     PATH=$(brew --prefix)/share/zsh/site-functions:$PATH
+# fi

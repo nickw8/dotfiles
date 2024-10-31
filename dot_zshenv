@@ -2,31 +2,15 @@
 # Use: It is typically used to set environment variables that should be available to all types of shell sessions.
 # Example: Setting the PATH variable or other environment variables that need to be universally accessible.
 
+# Ensure that a non-login, non-interactive shell has a defined environment.
+if [[ ("$SHLVL" -eq 1 && ! -o LOGIN) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
+    source "${ZDOTDIR:-$HOME}/.zprofile"
+fi
+
 # Set the GPG_TTY to be the same as the TTY, either via the env var
 # or via the tty command.
 if [ -n "$TTY" ]; then
-  export GPG_TTY=$(tty)
+    export GPG_TTY=$(tty)
 else
-  export GPG_TTY="$TTY"
+    export GPG_TTY="$TTY"
 fi
-
-# Script that adds rust ecutables to the path
-. "$HOME/.cargo/env"
-
-# Source the .zprofile file incase anything was added there by applications
-source "$HOME/.zprofile"
-
-# Detect operating system
-if [[ "$(uname)" == "Darwin" ]]; then
-    # Add Homebrew's executable directory to the front of the PATH
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-
-    # Source completions added by applications installed by homebrew
-    PATH=$(brew --prefix)/share/zsh/site-functions:$PATH
-fi
-
-# Source rye environment for python
-# source "$HOME/.rye/env"
-
-# Add .local/bin to the front of the PATH
-PATH="$HOME/.local/bin:$PATH"

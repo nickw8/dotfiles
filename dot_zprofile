@@ -2,5 +2,53 @@
 # Use: It is commonly used to set environment variables and other configurations that should only be set once at the start of a login session.
 # Example: Setting the PATH variable, initializing environment settings, and running commands that should only be executed once per login.
 
-# Source the .profile file incase anything was added there by applications
-source "$HOME/.profile"
+# ---- Language -----
+if [[ -z "$LANG" ]]; then
+    export LANG='en_US.UTF-8'
+fi
+
+if [[ -z "$LC_ALL" ]]; then
+    export LC_ALL="en_US.UTF-8"
+fi
+export LC_COLLATE='C'
+
+# ---- Editors -----
+if [[ -z "$PAGER" ]]; then
+    export PAGER='less'
+    export LESS='-RMs'
+fi
+
+# ---- Zsh-Vim-Mode Cursor Configuration -----
+setopt PROMPT_SUBST
+export KEYTIMEOUT=1
+# MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
+# MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
+# MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f';   MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
+# MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinking underline"
+# export VISUAL=vi
+RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
+
+# ---- Paths -----
+# Ensure path arrays do not contain duplicates.
+# This might be a macOS specific thing.
+# typeset -gU cdpath fpath mailpath path
+
+PATH=(
+  $HOME/{,s}bin(N)
+  $HOME/.local/bin(N)
+  /opt/{homebrew,local}/{,s}bin(N)
+  /usr/local/{,s}bin(N)
+  $PATH
+)
+
+# ---- Less -----
+# Set the default Less options.
+if [[ -z "$LESS" ]]; then
+  export LESS='-g -i -M -R -S -w -z-4'
+fi
+
+# Set the Less input preprocessor.
+# Try both `lesspipe` and `lesspipe.sh` as either might exist on a system.
+if [[ -z "$LESSOPEN" ]] && (( $#commands[(i)lesspipe(|.sh)] )); then
+  export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
+fi
