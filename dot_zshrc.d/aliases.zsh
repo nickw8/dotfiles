@@ -5,3 +5,4 @@ alias ll="eza --all --grid --group-directories-first --color=always --long --git
 alias cat='bat'
 alias gpat='git push && git push --tags'
 alias bump='cz bump --yes'
+alias tf='terraform'

@@ -15,7 +15,7 @@ export LC_COLLATE='C'
 # ---- Editors -----
 if [[ -z "$PAGER" ]]; then
     export PAGER='less'
-    export LESS='-RMs'
+    # export LESS='-RMs'
 fi
 
 # ---- Zsh-Vim-Mode Cursor Configuration -----
