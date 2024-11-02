@@ -146,8 +146,8 @@ zinit wait'1' lucid is-snippet for \
     $HOME/.zshrc.d/atuin-history-arrow.zsh \
     $HOME/.zshrc.d/aliases.zsh \
     $HOME/.zshrc.d/functions.zsh \
-    $HOME/.zshrc.d/fzf-conf.zsh \
-    $HOME/.zshrc.d/zstyle-completions.zsh
+    $HOME/.zshrc.d/fzf-conf.zsh
+    # $HOME/.zshrc.d/zstyle-completions.zsh
 
 zinit for atload'
       zicompinit; zicdreplay

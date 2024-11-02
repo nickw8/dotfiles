@@ -1,10 +1,14 @@
 # ---- fzf-tab Completions -----
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
+zstyle ':fzf-tab:complete:cd:*' fzf-pad 30
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-pad 30
+# setopt GLOB_DOTS
 
 # ---- fzf-tab Setings -----
 zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
 zstyle ':fzf-tab:*' accept-line enter
+zstyle ':fzf-tab:*' continuous-trigger '>'
 
 # # ---- Completions -----
 LS_COLORS=${LS_COLORS:-'di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'}
@@ -21,7 +25,7 @@ zstyle ':completion:*' menu select
 
 # Use caching to make completion for commands such as dpkg and apt usable.
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "$HOME/.zcompcache"
+zstyle ':completion::complete:*' cache-path "$ZINIT[HOME_DIR]/zcompcache"
 
 # case insensitive path-completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
@@ -77,16 +81,6 @@ zstyle -e ':completion:*:hosts' hosts 'reply=(
   ${=${(f)"$(cat /etc/hosts(|)(N) <<(ypcat hosts 2> /dev/null))"}%%(\#${_etc_host_ignores:+|${(j:|:)~_etc_host_ignores}})*}
   ${=${${${${(@M)${(f)"$(cat ~/.ssh/config 2> /dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
 )'
-
-# Don't complete uninteresting users...
-zstyle ':completion:*:*:*:users' ignored-patterns \
-       adm amanda apache avahi beaglidx bin cacti canna clamav daemon \
-       dbus distcache dovecot fax ftp games gdm gkrellmd gopher \
-       hacluster haldaemon halt hsqldb ident junkbust ldap lp mail \
-       mailman mailnull mldonkey mysql nagios \
-       named netdump news nfsnobody nobody nscd ntp nut nx openvpn \
-       operator pcap postfix postgres privoxy pulse pvm quagga radvd \
-       rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs '_*'
 
 # Ignore multiple entries.
 zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
