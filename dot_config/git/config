@@ -1,0 +1,24 @@
+[user]
+	name = nickw8
+	email = nicholas.weight@gmail.com
+
+[core]
+    pager = delta --dark
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+    
+[alias]
+    gone = "!f() { git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done; }; f"
+
+[color]
+	ui = auto
