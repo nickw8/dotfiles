@@ -4,45 +4,45 @@
    * Panels
    **/
   {
-    "key": "ctrl+k ctrl+e",
+    "key": "cmd+k cmd+e",
     "command": "workbench.view.explorer"
   },
   {
-    "key": "ctrl+k ctrl+g",
+    "key": "cmd+k cmd+g",
     "command": "workbench.view.scm"
   },
   {
-    "key": "ctrl+k ctrl+d",
+    "key": "cmd+k cmd+d",
     "command": "workbench.view.debug"
   },
   {
-    "key": "ctrl+k ctrl+x",
+    "key": "cmd+k cmd+x",
     "command": "workbench.view.extensions"
     // "command": "workbench.extensions.action.showEnabledExtensions"
   },
   {
-    "key": "ctrl+e",
+    "key": "cmd+e",
     "command": "workbench.action.focusActiveEditorGroup"
   },
   {
-    "key": "ctrl+t",
+    "key": "cmd+t",
     "command": "workbench.action.terminal.toggleTerminal"
   },
   /**
    * File Explorer
    **/
   {
-    "key": "ctrl+d",
+    "key": "cmd+d",
     "command": "duplicate.execute",
     "when": "explorerViewletVisible && filesExplorerFocus&& !explorerResourceIsRoot && !inputFocus"
   },
   {
-    "key": "ctrl+n",
+    "key": "cmd+n",
     "command": "explorer.newFile",
     "when": "explorerViewletVisible && filesExplorerFocus&& !inputFocus"
   },
   {
-    "key": "shift+ctrl+n",
+    "key": "shift+cmd+n",
     "command": "explorer.newFolder",
     "when": "explorerViewletVisible && filesExplorerFocus&& !inputFocus"
   },
@@ -78,22 +78,22 @@
    * Line Manipulation
    **/
   {
-    "key": "ctrl+l",
+    "key": "cmd+l",
     "command": "editor.action.copyLinesDownAction",
     "when": "editorTextFocus"
   },
   {
-    "key": "ctrl+j",
+    "key": "cmd+j",
     "command": "editor.action.joinLines",
     "when": "editorTextFocus"
   },
   {
-    "key": "shift+ctrl+[",
+    "key": "shift+cmd+[",
     "command": "editor.fold",
     "when": "editorFocus"
   },
   {
-    "key": "shift+ctrl+]",
+    "key": "shift+cmd+]",
     "command": "editor.unfold",
     "when": "editorFocus"
   },
@@ -101,17 +101,17 @@
    * Multi-Cursor
    **/
   {
-    "key": "ctrl+backspace",
+    "key": "cmd+backspace",
     "command": "editor.action.moveSelectionToPreviousFindMatch",
     "when": "editorFocus && editorHasMultipleSelections"
   },
   {
-    "key": "ctrl+k ctrl+d",
+    "key": "cmd+k cmd+d",
     "command": "editor.action.moveSelectionToNextFindMatch",
     "when": "editorFocus && editorHasMultipleSelections"
   },
   {
-    "key": "ctrl+right",
+    "key": "cmd+right",
     "command": "editor.action.insertCursorAtEndOfEachLineSelected",
     "when": "editorFocus && editorHasSelection"
   },

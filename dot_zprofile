@@ -33,12 +33,12 @@ RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 # This might be a macOS specific thing.
 # typeset -gU cdpath fpath mailpath path
 
-PATH=(
+path=(
   $HOME/{,s}bin(N)
   $HOME/.local/bin(N)
   /opt/{homebrew,local}/{,s}bin(N)
   /usr/local/{,s}bin(N)
-  $PATH
+  $path
 )
 
 # ---- Less -----
