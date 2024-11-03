@@ -55,17 +55,17 @@ else
 fi
 
 # ---- Zinit: Oh-My-Zsh & Prezto Plugins -----
-zinit wait lucid for is-snippet \
+zinit wait lucid is-snippet for \
   OMZL::{'clipboard','compfix','completion','git','grep'}.zsh \
   OMZP::{git,sudo,aws,kubectl,kubectx,rust,command-not-found,eza}
 
 # ---- Zinit: ANNEXES -----
-zi lucid light-mode for \
+zi lucid light-mode id-as for \
   "$ZI_REPO"/zinit-annex-binary-symlink
 #   "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
 
 # ---- Zinit: GH Binaries -----
-zi wait lucid from'gh-r' lbin'!' for \
+zi wait lucid from'gh-r' lbin'!' id-as for \
   @dandavison/delta  \
   @koalaman/shellcheck \
     atclone"./fzf --zsh > _fzf.zsh" \
@@ -81,19 +81,14 @@ zi wait lucid from'gh-r' lbin'!' for \
   @eza-community/eza
 
 # ---- Zinit: Programs -----
-zi wait lucid light-mode from'gh-r' lbin'!' as'program' for \
-    atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
-    src="zhook.zsh" \
+zi wait lucid light-mode from'gh-r' lbin'!' as'program' id-as for \
+    mv"direnv* -> direnv" atclone'./direnv hook zsh > zhook.zsh' \
+    atpull'%atclone' src="zhook.zsh" \
   direnv/direnv \
   tofuutils/tenv \
-    id-as'carapace' atclone'carapace _carapace > carapace.zsh' \
-    atpull'%atclone' src="carapace.zsh" \
-  carapace-sh/carapace-bin
-
-export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
-
-# ---- Zinit: Commands -----
-zi wait lucid light-mode from"gh-r" lbin"!" as"command" for \
+    atclone'carapace _carapace > carapace.zsh' \
+    as-id'carapace' atpull'%atclone' src="carapace.zsh" \
+  carapace-sh/carapace-bin \
     atclone"./zoxide init --cmd cd zsh > init.zsh" \
     atpull"%atclone" src"init.zsh" \
   ajeetdsouza/zoxide \
@@ -102,15 +97,17 @@ zi wait lucid light-mode from"gh-r" lbin"!" as"command" for \
     atpull"%atclone" src"init.zsh" nocompletions \
   atuinsh/atuin
 
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+
 # ---- Zinit: Prompt -----
 # Uncomment below on first run
 # zinit ice wait'!' lucid atload'true; _p9k_precmd' nocd
 # Uncomment below on subsequent runs
-zinit ice wait'!' lucid atload'source $HOME/.p10k.zsh; _p9k_precmd' nocd
+zinit ice wait'!' lucid id-as atload'source $HOME/.p10k.zsh; _p9k_precmd' nocd
 zinit light romkatv/powerlevel10k
 
 # ---- Zinit: Misc. -----
-zinit wait lucid light-mode for \
+zinit wait lucid light-mode id-as for \
   Aloxaf/fzf-tab \
     atload'_zsh_autosuggest_start' \
     atinit"
@@ -118,15 +115,17 @@ zinit wait lucid light-mode for \
       bindkey '^_' autosuggest-execute
       bindkey '^ ' autosuggest-accept" \
   zsh-users/zsh-autosuggestions \
-    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
-    atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
-    compile'.*fast*~*.zwc' nocompletions \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
   $ZI_REPO/fast-syntax-highlighting
 
 zinit wait'1' lucid is-snippet for \
+      id-as'atuin-history-arrow' \
     $XDG_CONFIG_HOME/zsh/atuin-history-arrow.zsh \
+      id-as'aliases' \
     $XDG_CONFIG_HOME/zsh/aliases.zsh \
+      id-as'functions' \
     $XDG_CONFIG_HOME/zsh/functions.zsh \
+      id-as'fzf-conf' \
     $XDG_CONFIG_HOME/fzf/fzf-conf.zsh
     # $XDG_CONFIG_HOME/zsh/zstyle-completions.zsh
 
