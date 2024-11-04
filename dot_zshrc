@@ -54,6 +54,14 @@ else
   return 1
 fi
 
+if [[ "$(uname)" == "Darwin" ]]; then
+    # zinit wait lucid for as'completion' nocompile id-as"brew-completion/_brew" is-snippet \
+    #     $GH_RAW_URL/Homebrew/brew/master/completions/zsh/_brew
+  zi add-fpath /opt/homebrew/share/zsh/site-functions
+    # PATH=/opt/homebrew/share/zsh/site-functions:$PATH
+    # eval "$(brew completions)"
+fi
+
 # ---- Zinit: Oh-My-Zsh & Prezto Plugins -----
 zinit wait lucid is-snippet for \
   OMZL::{'clipboard','compfix','completion','git','grep'}.zsh \
@@ -71,7 +79,6 @@ zi wait lucid from'gh-r' lbin'!' id-as for \
     atclone"./fzf --zsh > _fzf.zsh" \
     atpull"%atclone" src"_fzf.zsh" \
   @junegunn/fzf \
-    nocompletions'!' \
   @sharkdp/fd \
     lbin'!* -> shfmt' \
   @mvdan/sh \
@@ -86,15 +93,15 @@ zi wait lucid light-mode from'gh-r' lbin'!' as'program' id-as for \
     atpull'%atclone' src="zhook.zsh" \
   direnv/direnv \
   tofuutils/tenv \
-    atclone'carapace _carapace > carapace.zsh' \
-    as-id'carapace' atpull'%atclone' src="carapace.zsh" \
+    atclone'carapace _carapace > _carapace.zsh' \
+    id-as'carapace' atpull'%atclone' src="_carapace.zsh" \
   carapace-sh/carapace-bin \
     atclone"./zoxide init --cmd cd zsh > init.zsh" \
     atpull"%atclone" src"init.zsh" \
   ajeetdsouza/zoxide \
     bpick"atuin-*.tar.gz" mv"atuin*/atuin -> atuin" \
     atclone"./atuin init zsh > init.zsh" \
-    atpull"%atclone" src"init.zsh" nocompletions \
+    atpull"%atclone" src"init.zsh" \
   atuinsh/atuin
 
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
@@ -118,6 +125,7 @@ zinit wait lucid light-mode id-as for \
     atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
   $ZI_REPO/fast-syntax-highlighting
 
+
 zinit wait'1' lucid is-snippet for \
       id-as'atuin-history-arrow' \
     $XDG_CONFIG_HOME/zsh/atuin-history-arrow.zsh \
@@ -127,6 +135,8 @@ zinit wait'1' lucid is-snippet for \
     $XDG_CONFIG_HOME/zsh/functions.zsh \
       id-as'fzf-conf' \
     $XDG_CONFIG_HOME/fzf/fzf-conf.zsh
+    #   id-as'!' as'completion'  \
+    # /opt/homebrew/share/zsh/site-functions/*
     # $XDG_CONFIG_HOME/zsh/zstyle-completions.zsh
 
 zinit for atload'
