@@ -25,7 +25,7 @@ export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
 # export ZDOTDIR="$HOME/.config/zsh"
 
 # ---- Other ENV Settings -----
-export REPO_HOME="$HOME/Projects"
+export REPO_HOME="$HOME/projects"
 SHELL_SESSIONS_DISABLE=1
 
 # ---- Editors -----

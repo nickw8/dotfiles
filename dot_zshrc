@@ -82,6 +82,8 @@ zi wait lucid from'gh-r' lbin'!' id-as for \
   @sharkdp/fd \
     lbin'!* -> shfmt' \
   @mvdan/sh \
+    lbin'!**/nvim'\
+  @neovim/neovim      \
     lbin'!**/rg' nocompletions \
   @BurntSushi/ripgrep \
     lbin \
@@ -102,7 +104,8 @@ zi wait lucid light-mode from'gh-r' lbin'!' as'program' id-as for \
     bpick"atuin-*.tar.gz" mv"atuin*/atuin -> atuin" \
     atclone"./atuin init zsh > init.zsh" \
     atpull"%atclone" src"init.zsh" \
-  atuinsh/atuin
+  atuinsh/atuin \
+  derailed/k9s
 
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
 
