@@ -11,6 +11,9 @@
 
 # setopt XTRACE
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+
 # ---- Helper Methods -----
 function error() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1 }
 function info() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f" }
@@ -62,6 +65,13 @@ if [[ "$(uname)" == "Darwin" ]]; then
     # eval "$(brew completions)"
 fi
 
+# ---- Zinit: Prompt -----
+# Uncomment below on first run
+# zinit ice wait'!' lucid atload'true; _p9k_precmd' nocd
+# Uncomment below on subsequent runs
+zinit ice wait'!' lucid id-as atload'source $HOME/.p10k.zsh; _p9k_precmd' nocd
+zinit light romkatv/powerlevel10k
+
 # ---- Zinit: Oh-My-Zsh & Prezto Plugins -----
 zinit wait lucid is-snippet for \
   OMZL::{'clipboard','compfix','completion','git','grep'}.zsh \
@@ -87,7 +97,9 @@ zi wait lucid from'gh-r' lbin'!' id-as for \
     lbin'!**/rg' nocompletions \
   @BurntSushi/ripgrep \
     lbin \
-  @eza-community/eza
+  @eza-community/eza \
+  @aristocratos/btop \
+  @leg100/pug
 
 # ---- Zinit: Programs -----
 zi wait lucid light-mode from'gh-r' lbin'!' as'program' id-as for \
@@ -109,14 +121,8 @@ zi wait lucid light-mode from'gh-r' lbin'!' as'program' id-as for \
 
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
 
-# ---- Zinit: Prompt -----
-# Uncomment below on first run
-# zinit ice wait'!' lucid atload'true; _p9k_precmd' nocd
-# Uncomment below on subsequent runs
-zinit ice wait'!' lucid id-as atload'source $HOME/.p10k.zsh; _p9k_precmd' nocd
-zinit light romkatv/powerlevel10k
-
 # ---- Zinit: Misc. -----
+
 zinit wait lucid light-mode id-as for \
   Aloxaf/fzf-tab \
     atload'_zsh_autosuggest_start' \
@@ -126,8 +132,7 @@ zinit wait lucid light-mode id-as for \
       bindkey '^ ' autosuggest-accept" \
   zsh-users/zsh-autosuggestions \
     atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-  $ZI_REPO/fast-syntax-highlighting
-
+  $ZI_REPO/fast-syntax-highlighting 
 
 zinit wait'1' lucid is-snippet for \
       id-as'atuin-history-arrow' \
@@ -150,9 +155,12 @@ zinit for atload'
   $ZI_REPO/null
 
 # ---- Recompile .zshrc if updated -----
-if [[ ~/.zshrc -nt ~/.zshrc.zwc ]]; then
+if [[ ! -e ~/.zshrc.zwc || ~/.zshrc -nt ~/.zshrc.zwc ]]; then
     zcompile ~/.zshrc
 fi
+
+# Bug in zsh-autosuggestions. This fixes it
+unset ZSH_AUTOSUGGEST_USE_ASYNC
 
 # ---- Profiling: End -----
 # unsetopt XTRACE

@@ -70,3 +70,10 @@ update_zinit() {
     zinit self-update
     zinit update --parallel 40
 }
+
+# Remove full terraform state
+remove_tf_state () {
+  terraform state list | while IFS= read -r item; do
+    terraform state rm "$item"
+  done
+}
