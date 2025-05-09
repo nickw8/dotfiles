@@ -1,35 +1,13 @@
+# ====================================
+# 🌟 Login Shell Configuration
+# ====================================
+
 # Purpose: This file is sourced for login shells
 # Use: It is commonly used to set environment variables and other configurations that should only be set once at the start of a login session.
 # Example: Setting the PATH variable, initializing environment settings, and running commands that should only be executed once per login.
 
-# ---- Language -----
-export LANG='en_US.UTF-8'
-export LC_ALL="en_US.UTF-8"
-export LC_COLLATE='C'
-
-# ---- XDG Directory Settings -----
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_STATE_HOME="$HOME/.local/state"
-
-export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
-export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"
-
-export CARGO_HOME="$XDG_DATA_HOME/cargo"
-export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
-
-export TERMINFO="$XDG_DATA_HOME/terminfo"
-export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
-
-# export ZDOTDIR="$HOME/.config/zsh"
-
-# ---- Other ENV Settings -----
-export REPO_HOME="$HOME/projects"
-SHELL_SESSIONS_DISABLE=1
-
 # ---- Editors -----
-
+export EDITOR=nvim
 
 # ---- Zsh-Vim-Mode Cursor Configuration -----
 setopt PROMPT_SUBST

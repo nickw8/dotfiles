@@ -1,6 +1,37 @@
+# ====================================
+# 🌍 Universal Environment Variables
+# ====================================
+
 # Purpose: This file is sourced for all shell sessions, including login, interactive, and non-interactive shells i.e. Universal environment settings.
 # Use: It is typically used to set environment variables that should be available to all types of shell sessions.
 # Example: Setting the PATH variable or other environment variables that need to be universally accessible.
+
+# ---- Language -----
+export LANG='en_US.UTF-8'
+export LC_ALL="en_US.UTF-8"
+export LC_COLLATE='C'
+
+# ---- XDG Directory Settings -----
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
+export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"
+
+export PATH="$HOME/.local/bin:$PATH"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+
+export TERMINFO="$XDG_DATA_HOME/terminfo"
+export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
+
+# export ZDOTDIR="$HOME/.config/zsh"
+
+# ---- Other ENV Settings -----
+export REPO_HOME="$HOME/projects"
+SHELL_SESSIONS_DISABLE=1
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ ("$SHLVL" -eq 1 && ! -o LOGIN) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then

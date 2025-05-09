@@ -6,7 +6,7 @@ alias ll="eza --all --grid --group-directories-first --color=always --long --git
 alias l='eza -blF'
 alias la='eza -gla'
 
-alias cat='bat'
+alias cat='bat --no-pager -p'
 
 alias gpat='git push && git push --tags'
 
