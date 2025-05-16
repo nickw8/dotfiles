@@ -15,12 +15,6 @@
 # POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
 # ====================================
-# ✨ Helper Functions
-# ====================================
-function error() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1 }
-function info() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f" }
-
-# ====================================
 # ✨ Zinit Initialization
 # ====================================
 typeset -gAH ZINIT
