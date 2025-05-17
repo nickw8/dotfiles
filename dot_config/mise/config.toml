@@ -15,3 +15,4 @@ neovim = "latest"
 rust = "latest"
 cargo-binstall = "latest"
 "cargo:atuin" = "latest"
+"ubi:carapace-sh/carapace-bin" = { version = "latest", exe = "carapace" }
