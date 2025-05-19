@@ -1,0 +1,116 @@
+ls
+ls -a
+$nu.config-path
+aws
+aws sso login
+ls | where type == "dir" | table
+ls -a | where type == "dir" | table
+ls .config
+$nu.config-path
+which nvim
+nvim .config/nushell/config.nu
+cd Projects/
+l
+ls
+cd equiscript/
+ls
+nvim .config/nushell/env.nu
+cd .config
+cd
+nvim .config/nushell/env.nu
+cd
+cd -
+clear
+cd
+nvim .config/starship.toml
+cd Projects/equiscript/iac/argocd/
+cd
+nvim .config/starship.toml
+nvim ~/.config/starship.toml
+cd ..
+ls
+cd hl7/
+nvim ~/.config/starship.toml
+cd
+cd -
+nvim ~/.config/starship.toml
+cd -
+nvim ~/.config/starship.toml
+nvim ~/.p10k.zsh
+nvim ~/.config/starship.toml
+cd Projects/equiscript/iac/argocd/
+nvim ~/.config/starship.toml
+cat --no-pager -p ~/.config/starship.toml
+cat -p ~/.config/starship.toml
+cat ~/.config/starship.toml
+git rev-parse --is-inside-work-tree
+git ls-remote --get-url
+nvim ~/.config/starship.toml
+cd ..
+l
+ls
+cd ..
+ls
+cd hl7/
+nvim ~/.config/starship.toml
+nvim ~/.config/nushell/env.nu
+nvim ~/.config/starship.toml
+cd ../iac/terraform-infra/
+nvim ~/.config/starship.toml
+ls
+cd main/us-east-1/envs/
+nvim ~/.config/starship.toml
+cd compute
+nvim ~/.config/starship.toml
+ls
+ls -la
+ls -a
+git-prompt-string
+gst
+git status
+git status | gstat
+plugins list
+plugin list
+gstat
+plugin add nu_plugin_gstat
+gstat
+plugin list
+use gstat
+nu
+plugin list
+gstat
+cd Projects/equiscript/iac/argocd/
+gstat
+git status
+git pull
+gstat
+cargo install nu_plugin_hcl
+use hcl
+plugin add /Users/nickweight/.local/share/cargo/bin/nu_plugin_hcl
+plugin use hcl
+nvim ~/.config/nushell/env.nu
+l .config
+ls .config
+ls .config/carapace/
+carapace _carapace nushell | save --force ~/.cache/carapace/init.nu
+ls .config/carapace/
+carapace _carapace nushell | save --force ~/.config/carapace/init.nu
+nvim ~/.config/nushell/config.nu
+ls .config
+atuin init nu | save .config/atuin/init.nu
+nvim ~/.config/nushell/config.nu
+which
+which zoxide
+zoxide init nushell | save -f .config/zoxide/init.nu
+mkdir .config/zoxide
+zoxide init nushell | save -f .config/zoxide/init.nu
+nvim ~/.config/nushell/config.nu
+z argocd
+pwd
+cd
+which bat
+ls -l
+ls
+config nu
+l .config/
+ls -l .config
