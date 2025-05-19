@@ -131,7 +131,6 @@ zinit wait lucid is-snippet for \
     id-as'carapace' $XDG_CONFIG_HOME/zsh/_carapace.zsh \
     id-as'tenv' $XDG_CONFIG_HOME/zsh/_tenv.zsh \
     id-as'k9s' $XDG_CONFIG_HOME/zsh/_k9s.zsh \
-    id-as'go' $XDG_CONFIG_HOME/zsh/_go.zsh \
     id-as'cargo' $XDG_CONFIG_HOME/zsh/_cargo.zsh \
     id-as'direnv' $XDG_CONFIG_HOME/zsh/_direnv.zsh \
     id-as'fzf' $XDG_CONFIG_HOME/zsh/_fzf.zsh \
