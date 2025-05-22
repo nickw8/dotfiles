@@ -56,18 +56,6 @@ else
 fi
 
 # ====================================
-# ✨ OS-specific Settings
-# ====================================
-
-if [[ "$(uname)" == "Darwin" ]]; then
-    # zinit wait lucid for as'completion' nocompile id-as"brew-completion/_brew" is-snippet \
-    #     $GH_RAW_URL/Homebrew/brew/master/completions/zsh/_brew
-  zi add-fpath /opt/homebrew/share/zsh/site-functions
-    # PATH=/opt/homebrew/share/zsh/site-functions:$PATH
-    # eval "$(brew completions)"
-fi
-
-# ====================================
 # ✨ Prompt Configuration
 # ====================================
 
@@ -92,17 +80,9 @@ zinit wait lucid is-snippet for \
 # ✨ Zinit: ANNEXES 
 # ====================================
 
-zinit lucid light-mode id-as for \
-  "$ZI_REPO"/zinit-annex-binary-symlink
+# zinit lucid light-mode id-as for \
+#   "$ZI_REPO"/zinit-annex-binary-symlink
 #   "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
-
-# ====================================
-# ✨ Zinit: GH Binaries
-# ====================================
-
-zinit  wait lucid from'gh-r' lbin'!' id-as for \
-    lbin'!* -> shfmt' \
-  @mvdan/sh 
 
 # ====================================
 # ✨ Zinit: Programs
@@ -111,7 +91,7 @@ zinit  wait lucid from'gh-r' lbin'!' id-as for \
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
 
 # ====================================
-# ✨ Zinit: Misc.
+# ✨ Zinit: Plugins
 # ====================================
 
 zinit wait lucid light-mode id-as for \
@@ -125,20 +105,33 @@ zinit wait lucid light-mode id-as for \
     atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
   $ZI_REPO/fast-syntax-highlighting 
 
-zinit wait lucid is-snippet for \
-    id-as'mise' $XDG_CONFIG_HOME/zsh/mise-env.zsh \
-    id-as'atuin' $XDG_CONFIG_HOME/zsh/atuin-env.zsh \
-    id-as'carapace' $XDG_CONFIG_HOME/zsh/_carapace.zsh \
-    id-as'tenv' $XDG_CONFIG_HOME/zsh/_tenv.zsh \
-    id-as'k9s' $XDG_CONFIG_HOME/zsh/_k9s.zsh \
-    id-as'cargo' $XDG_CONFIG_HOME/zsh/_cargo.zsh \
-    id-as'direnv' $XDG_CONFIG_HOME/zsh/_direnv.zsh \
-    id-as'fzf' $XDG_CONFIG_HOME/zsh/_fzf.zsh \
-    id-as'zoxide' $XDG_CONFIG_HOME/zsh/_zoxide.zsh \
-    id-as'atuin-history-arrow' $XDG_CONFIG_HOME/zsh/atuin-history-arrow.zsh \
-    id-as'aliases' $XDG_CONFIG_HOME/zsh/aliases.zsh \
-    id-as'functions' $XDG_CONFIG_HOME/zsh/functions.zsh \
-    id-as'fzf-conf' $XDG_CONFIG_HOME/fzf/fzf-conf.zsh 
+# ====================================
+# ✨ OS-specific Settings
+# ====================================
+
+if [[ "$(uname)" == "Darwin" ]]; then
+  zi add-fpath /opt/homebrew/share/zsh/site-functions
+fi
+
+zi add-fpath $XDG_DATA_HOME/zsh/site-functions
+
+# ====================================
+# ✨ ZINIT: Source Local Configs
+# ====================================
+
+setopt EXTENDED_GLOB
+
+vendor_env_dir=$XDG_CONFIG_HOME/zsh/vendors
+user_dir=$XDG_CONFIG_HOME/zsh/user/
+
+zinit wait lucid is-snippet id-as'' for \
+  "$vendor_env_dir/"mise.zsh \
+  "$vendor_env_dir/"^mise.zsh \
+  "$user_dir/"*.zsh
+
+# ====================================
+# ✨ Zinit: Finalize Setup
+# ====================================
 
 zinit for atload'
       zicompinit; zicdreplay
@@ -146,14 +139,6 @@ zinit for atload'
       _zsh_autosuggest_bind_widgets' \
     as'null' id-as'zinit/cleanup' lucid nocd wait \
   $ZI_REPO/null
-
-# ====================================
-# ✨ Zinit: Recompile .zshrc if updated
-# ====================================
-
-if [[ ! -e ~/.zshrc.zwc || ~/.zshrc -nt ~/.zshrc.zwc ]]; then
-    zcompile ~/.zshrc
-fi
 
 # Bug in zsh-autosuggestions. This fixes it
 unset ZSH_AUTOSUGGEST_USE_ASYNC

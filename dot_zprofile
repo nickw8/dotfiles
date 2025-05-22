@@ -22,7 +22,7 @@ RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 # ---- Paths -----
 # Ensure path arrays do not contain duplicates.
 # This might be a macOS specific thing.
-# typeset -gU cdpath fpath mailpath path
+typeset -gU cdpath fpath mailpath path
 
 path=(
   $HOME/{,s}bin(N)
@@ -44,3 +44,4 @@ fi
 # ----- Bat (better cat) -----
 export BAT_THEME="Visual Studio Dark+"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+

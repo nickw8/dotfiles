@@ -16,3 +16,8 @@ rust = "latest"
 cargo-binstall = "latest"
 "cargo:atuin" = "latest"
 "ubi:carapace-sh/carapace-bin" = { version = "latest", exe = "carapace" }
+direnv = "latest"
+"ubi:leg100/pug" = "latest"
+"ubi:mvdan/sh" = { version = "latest", exe = "shfmt" }
+usage = "latest"
+lazygit = "latest"

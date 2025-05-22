@@ -16,12 +16,11 @@
 #
 # You can remove these comments if you want or leave
 # them for future reference.
-$env.TRANSIENT_PROMPT_COMMAND = ^starship module character
-$env.TRANSIENT_PROMPT_INDICATOR = ""
-$env.TRANSIENT_PROMPT_INDICATOR_VI_INSERT = ""
-$env.TRANSIENT_PROMPT_INDICATOR_VI_NORMAL = ""
-$env.TRANSIENT_PROMPT_MULTILINE_INDICATOR = ""
-$env.TRANSIENT_PROMPT_COMMAND_RIGHT = ^starship module time
 
 # Carapace
-$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense
+$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense'
+
+# Fix: WSL breaks oh-my-posh and starship prompts
+if ($env.WSL_DISTRO_NAME? | is-not-empty) {
+  $env.config.shell_integration.osc133 = false
+}

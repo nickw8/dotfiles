@@ -77,3 +77,9 @@ remove_tf_state () {
     terraform state rm "$item"
   done
 }
+
+check_zcompile() {
+  local file=$1
+  local zwc="${file}.zwc"
+  [[ -f $file && (! -e $zwc || $file -nt $zwc) ]] && zcompile -- "$file"
+}

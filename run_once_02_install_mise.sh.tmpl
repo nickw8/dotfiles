@@ -8,19 +8,6 @@ else
   echo "[INFO] mise already installed."
 fi
 
-# Add missing plugins (only runs once)
-# echo "[INFO] Adding mise plugins..."
-#
-# mise plugin add pug https://github.com/leg100/asdf-pug
-# mise plugin add btop https://github.com/looztra/asdf-btop
-# mise plugin add carapace https://github.com/looztra/asdf-carapace
-# mise plugin add tenv https://github.com/tenv-asdf/asdf-tenv
-#
-# echo "[INFO] mise plugins added successfully."
-
 # Install tools defined in .mise.toml
-echo "[INFO] Installing tools from .mise.toml..."
+echo "[INFO] Installing tools from .XDG_CONFIG_HOME/mise/config.toml..."
 mise install
-
-# Generate mise-env.zsh
-mise activate zsh >"$HOME/.config/zsh/mise-env.zsh"

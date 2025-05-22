@@ -16,14 +16,7 @@
 #
 # You can remove these comments if you want or leave
 # them for future reference.
-mkdir ($nu.data-dir | path join "vendor/autoload")
-starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+# mkdir ($nu.data-dir | path join "vendor/autoload")
+# starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
-# Carapace
-source ~/.config/carapace/init.nu
-
-# Atuin
-source ~/.config/atuin/init.nu
-
-# Zoxide
-source ~/.config/zoxide/init.nu
+$env.TRANSIENT_PROMPT_COMMAND_RIGHT = null
