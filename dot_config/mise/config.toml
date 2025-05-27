@@ -21,3 +21,4 @@ direnv = "latest"
 "ubi:mvdan/sh" = { version = "latest", exe = "shfmt" }
 usage = "latest"
 lazygit = "latest"
+btop = "latest"
