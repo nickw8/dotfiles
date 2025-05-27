@@ -4,11 +4,11 @@
 # zmodload zsh/datetime
 # setopt PROMPT_SUBST
 # PS4='+$EPOCHREALTIME %N:%i> '
-#
+
 # logfile=$(mktemp zsh_profile.XXXXXXXX)
 # echo "Logging to $logfile"
 # exec 3>&2 2>$logfile
-#
+
 # setopt XTRACE
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
