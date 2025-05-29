@@ -17,6 +17,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
+# ---- XDG Overrides for software -----
 export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
 export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"
 
@@ -26,6 +27,8 @@ export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 
 export TERMINFO="$XDG_DATA_HOME/terminfo"
 export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
+
+export LESSHISTFILE="$XDG_STATE_HOME"/less/history
 
 # export ZDOTDIR="$HOME/.config/zsh"
 
