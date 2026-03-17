@@ -1,7 +1,6 @@
 #!/bin/sh
 set -eu
 
-# Check if mise is installed
 if ! command -v mise >/dev/null 2>&1; then
   echo "[INFO] Installing mise..."
   curl -sSfL https://mise.jdx.dev/install.sh | sh
@@ -20,6 +19,9 @@ else
   echo "[WARN] Missing $refresh_shell_assets; skipping shell asset generation."
 fi
 
-# Install tools defined in config.toml.
-echo "[INFO] Installing tools from ${XDG_CONFIG_HOME:-$HOME/.config}/mise/config.toml..."
-mise install
+if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/mise/config.toml" ]; then
+  echo "[INFO] Installing tools from ${XDG_CONFIG_HOME:-$HOME/.config}/mise/config.toml..."
+  mise install
+else
+  echo "[INFO] No mise config found yet, skipping tool install."
+fi

@@ -17,21 +17,21 @@ k9s = { version = "latest", postinstall = "dotfiles-refresh-shell-assets k9s" }
 kustomize = "latest"
 lazygit = "latest"
 neovim = "latest"
-pre-commit = "latest"
+python = "latest"
 ripgrep = "latest"
 rust = "latest"
 shellcheck = "latest"
 usage = { version = "latest", postinstall = "dotfiles-refresh-shell-assets usage" }
+uv = "latest"
 zoxide = { version = "latest", postinstall = "dotfiles-refresh-shell-assets zoxide" }
 "cargo:atuin" = { version = "latest", postinstall = "dotfiles-refresh-shell-assets atuin" }
+"github:carapace-sh/carapace-bin" = { version = "latest", exe = "carapace", postinstall = "dotfiles-refresh-shell-assets carapace" }
 "github:pingdotgg/t3code" = "latest"
 "go:github.com/kubernetes-sigs/ingress2gateway" = "latest"
 "pipx:commitizen" = "latest"
-"github:carapace-sh/carapace-bin" = { version = "latest", exe = "carapace", postinstall = "dotfiles-refresh-shell-assets carapace" }
+"pipx:pre-commit" = "latest"
 "ubi:leg100/pug" = "latest"
 "ubi:mvdan/sh" = { version = "latest", exe = "shfmt" }
 
-# btop = "1.3.0"
-# direnv = "2.36.0"
 [settings]
 experimental = true
