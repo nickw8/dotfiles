@@ -99,7 +99,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   zinit add-fpath /opt/homebrew/share/zsh/site-functions
 fi
 
-zinit add-fpath $XDG_DATA_HOME/zsh/site-functions
+zinit add-fpath ${XDG_DATA_HOME:-$HOME/.local/share}/zsh/site-functions
 
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
 
@@ -135,4 +135,3 @@ zinit for atload'
 # zprof
 # unsetopt XTRACE
 # exec 2>&3 3>&-
-

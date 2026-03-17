@@ -1,0 +1,16 @@
+aliases:
+  dp: deployments
+  sec: v1/secrets
+  jo: jobs
+  cr: clusterroles
+  crb: clusterrolebindings
+  ro: roles
+  rb: rolebindings
+  np: networkpolicies
+  prod: context prod
+  demo: context demo
+  loadtest: context loadtest
+  uat: context uat
+  qa: context qa
+  dev: context dev
+  ops: context ops

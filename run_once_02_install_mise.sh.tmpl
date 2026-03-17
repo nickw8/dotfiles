@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eu
 
 # Check if mise is installed
 if ! command -v mise >/dev/null 2>&1; then
@@ -8,6 +9,17 @@ else
   echo "[INFO] mise already installed."
 fi
 
-# Install tools defined in .mise.toml
-echo "[INFO] Installing tools from .XDG_CONFIG_HOME/mise/config.toml..."
+export PATH="$HOME/.local/bin:$PATH"
+
+refresh_shell_assets="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/user/dotfiles-refresh-shell-assets.zsh"
+if [ -f "$refresh_shell_assets" ]; then
+  # shellcheck source=/dev/null
+  . "$refresh_shell_assets"
+  dotfiles_refresh_shell_assets mise
+else
+  echo "[WARN] Missing $refresh_shell_assets; skipping shell asset generation."
+fi
+
+# Install tools defined in config.toml.
+echo "[INFO] Installing tools from ${XDG_CONFIG_HOME:-$HOME/.config}/mise/config.toml..."
 mise install

@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+refresh_shell_assets="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/user/dotfiles-refresh-shell-assets.zsh"
+
+if [ ! -f "$refresh_shell_assets" ]; then
+  printf '%s\n' "dotfiles-refresh-shell-assets: missing $refresh_shell_assets" >&2
+  exit 1
+fi
+
+# shellcheck source=/dev/null
+. "$refresh_shell_assets"
+dotfiles_refresh_shell_assets "$@"
