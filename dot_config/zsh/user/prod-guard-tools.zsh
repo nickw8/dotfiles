@@ -81,7 +81,7 @@ prod_guard_parse_kubectl() {
 }
 
 kubectl() {
-  prod_guard_run_wrapper kubectl "${commands[kubectl]}" prod_guard_parse_kubectl "$@"
+  prod_guard_run_wrapper kubectl "$(whence -p kubectl)" prod_guard_parse_kubectl "$@"
 }
 
 prod_guard_parse_terraform() {
@@ -140,7 +140,7 @@ prod_guard_parse_terraform() {
 }
 
 terraform() {
-  prod_guard_run_wrapper terraform "${commands[terraform]}" prod_guard_parse_terraform "$@"
+  prod_guard_run_wrapper terraform "$(whence -p terraform)" prod_guard_parse_terraform "$@"
 }
 
 prod_guard_parse_liquibase() {
@@ -199,7 +199,7 @@ prod_guard_parse_liquibase() {
 }
 
 liquibase() {
-  prod_guard_run_wrapper liquibase "${commands[liquibase]}" prod_guard_parse_liquibase "$@"
+  prod_guard_run_wrapper liquibase "$(whence -p liquibase)" prod_guard_parse_liquibase "$@"
 }
 
 prod_guard_parse_ku() {
@@ -225,7 +225,7 @@ prod_guard_parse_ku() {
 ku() {
   local subcmd="${1:-}"
   local overlay="${2:-}"
-  local real_kubectl="${commands[kubectl]}"
+  local real_kubectl="$(whence -p kubectl)"
 
   if [[ -z "$subcmd" || -z "$overlay" ]]; then
     echo "Usage: ku {apply|diff|dry} <overlay-path>"
