@@ -47,7 +47,11 @@ export LESSHISTFILE="$XDG_STATE_HOME"/less/history
 # ---- Other ENV Settings -----
 export REPO_HOME="$HOME/projects"
 SHELL_SESSIONS_DISABLE=1
-export BROWSER=wslview
+
+# WSL only: route links to the Windows default browser
+if [[ -n "$WSL_DISTRO_NAME" ]] || [[ "$(uname -r)" == *[Mm]icrosoft* ]]; then
+  export BROWSER=wslview
+fi
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ ("$SHLVL" -eq 1 && ! -o LOGIN) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
