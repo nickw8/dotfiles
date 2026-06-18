@@ -1,0 +1,14 @@
+{{- /* Generated into ~/.config/chezmoi/chezmoi.toml by `chezmoi init`.
+       promptStringOnce only asks when the value isn't already in local data,
+       so re-running init on this machine never re-prompts. Values live only in
+       the generated local config (0600) — never in this repo. */ -}}
+{{- $atlassianEmail := promptStringOnce . "atlassianEmail" "Atlassian email" -}}
+{{- $atlassianApiToken := promptStringOnce . "atlassianApiToken" "Atlassian API token" -}}
+
+[diff]
+    command = "delta"
+    args = ["--side-by-side", "{{ "{{ .Destination }}" }}", "{{ "{{ .Target }}" }}"]
+
+[data]
+    atlassianEmail = {{ $atlassianEmail | quote }}
+    atlassianApiToken = {{ $atlassianApiToken | quote }}

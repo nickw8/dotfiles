@@ -1,0 +1,3 @@
+# Serena index/cache accidentally created in the source dir — not dotfiles.
+# chezmoi already ignores source-root dotdirs; this keeps git from committing it.
+.serena/

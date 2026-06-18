@@ -22,3 +22,5 @@ alias bump='cz bump --yes'
 # alias tfws='terraform workspace select'
 
 alias vi='nvim'
+
+alias setup-project='~/projects/claude-code-data-hub/scripts/setup-project.sh'

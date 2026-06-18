@@ -26,8 +26,8 @@ dotfiles_refresh_shell_assets() {
       usage generate completion zsh usage --usage-cmd 'usage --usage-spec' > "$xdg_data_home/zsh/site-functions/_usage"
       ;;
     zoxide)
-      zoxide init zsh > "$xdg_config_home/zsh/vendors/zoxide.zsh"
-      zoxide init nushell > "$xdg_config_home/nushell/autoload/zoxide.nu"
+      zoxide init zsh --cmd cd > "$xdg_config_home/zsh/vendors/zoxide.zsh"
+      zoxide init nushell --cmd cd > "$xdg_config_home/nushell/autoload/zoxide.nu"
       ;;
     atuin)
       atuin init zsh > "$xdg_config_home/zsh/vendors/atuin.zsh"

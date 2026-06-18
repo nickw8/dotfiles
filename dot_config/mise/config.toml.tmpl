@@ -1,0 +1,70 @@
+[tools]
+# AI & agents
+claude = "latest"
+codex = "latest"
+"npm:@nickw8/bash-mcp" = "latest"
+"pipx:mempalace" = "latest"
+"pipx:serena-agent" = "latest"
+
+# Languages, runtimes & package managers
+cargo-binstall = "latest"
+go = "latest"
+node = "26"
+npm = "11"
+python = "3.13"
+rust = "latest"
+uv = "latest"
+
+# Coding & dev tools
+bats = "latest"
+helix = "latest"
+neovim = "latest"
+shellcheck = "latest"
+"github:mvdan/sh" = { version = "latest", exe = "shfmt" }
+"github:pingdotgg/t3code" = "latest"
+"pipx:tqdm" = "latest"
+
+# Git & version control
+delta = "latest"
+lazygit = "latest"
+"pipx:commitizen" = "latest"
+"pipx:pre-commit" = "latest"
+
+# Infrastructure & cloud
+argocd = "latest"
+awscli = "latest"
+dive = "latest"
+gcloud = "latest"
+helm = "latest"
+helm-diff = "latest"
+istioctl = "latest"
+k9s = { version = "latest", postinstall = "dotfiles-refresh-shell-assets k9s" }
+kubectl = "latest"
+kustomize = "latest"
+"github:leg100/pug" = "latest"
+"go:github.com/kubernetes-sigs/ingress2gateway" = "latest"
+
+# CLI & shell utilities
+bat = "latest"
+btop = "latest"
+chezmoi = "latest"
+eza = "latest"
+fd = "latest"
+fzf = "latest"
+jq = "latest"
+pandoc = "latest"
+ripgrep = "latest"
+television = "latest"
+usage = { version = "latest", postinstall = "dotfiles-refresh-shell-assets usage" }
+yq = "latest"
+zoxide = { version = "latest", postinstall = "dotfiles-refresh-shell-assets zoxide" }
+"cargo:atuin" = { version = "latest", postinstall = "dotfiles-refresh-shell-assets atuin" }
+"cargo:fallow-cli" = "2.97.0"
+"github:carapace-sh/carapace-bin" = { version = "latest", exe = "carapace", postinstall = "dotfiles-refresh-shell-assets carapace" }
+
+[settings]
+experimental = true
+
+[env]
+ATLASSIAN_EMAIL = '{{ .atlassianEmail }}'
+ATLASSIAN_API_TOKEN = '{{ .atlassianApiToken }}'
