@@ -23,17 +23,6 @@ export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"
 
 export PATH="$HOME/.local/bin:$PATH"
 
-# ---- mise shims (visible to non-interactive shells, e.g. Claude Code) -----
-# The mise *hook* (loaded async in .zshrc) only rewrites PATH in interactive shells,
-# so a freshly `mise install`-ed tool is invisible to non-interactive snapshots until
-# a restart. The shims dir is a *stable* path — new installs just add files inside it —
-# so putting it on PATH here means new tools appear after a `mise reshim`, no restart.
-# Guarded so re-sourcing (nested shells) doesn't duplicate the entry.
-case ":$PATH:" in
-  *":$XDG_DATA_HOME/mise/shims:"*) ;;
-  *) export PATH="$XDG_DATA_HOME/mise/shims:$PATH" ;;
-esac
-
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 
